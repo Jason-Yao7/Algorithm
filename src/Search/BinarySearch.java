@@ -68,9 +68,62 @@ public class BinarySearch {
         return -1;
     }
 
+    /**
+     * 寻找左侧边界的二分搜索
+     * 使用左闭右闭的算法，即终止条件为(left == right +1), right == nums.length;
+     * @param nums
+     * @param target
+     * @return
+     */
+    public int left_bound(int[] nums, int target){
+        int left = 0;
+        int right =  nums.length;
+        while (left <= right){
+            int mid = left + (right - left)/2;
+            if(nums[mid]< target){
+                left = mid +1;
+            }else if (nums[mid]>target){
+                right = mid -1;
+            }else {
+                right = mid -1; //找到不返回，缩小右侧边界继续寻找target；
+            }
+        }
+        //判断target是否存在于nums中
+        //此时target比所有数都大，返回-1；
+        if (left == nums.length) return -1;
+        return nums[left] == target ? left:-1;
+    }
+
+    /**
+     * 寻找右侧边界的二分查找
+     * 使用左闭右闭的算法，即终止条件为(left == right +1), right == nums.length;
+     * @param nums
+     * @param target
+     * @return
+     */
+
+    public int right_bound(int[] nums, int target){
+        int left = 0;
+        int right = nums.length-1;
+
+        while (left<=right){
+            int mid = left + (right - left);
+            if (nums[mid]<target){
+                left = mid + 1;
+            }else if (nums[mid]>target){
+                right = mid - 1;
+            }else {
+                left = mid + 1;
+            }
+        }
+        if (right < 0) return -1;
+        return nums[right] == target ? right : -1;
+
+    }
+
     public static void main(String[] args) {
-        int[] nums = {0,1,2,3,4};
+        int[] nums = {0,1,4,4,4,4,4};
         BinarySearch bs = new BinarySearch();
-        System.out.println(bs.binarySearch2(nums, 4));
+        System.out.println(bs.right_bound(nums, 4));
     }
 }
